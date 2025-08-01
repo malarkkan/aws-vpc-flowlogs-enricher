@@ -1,0 +1,56 @@
+CREATE EXTERNAL TABLE vpc_flow_logs_parquet (
+  `account_id` string,
+  `action` string,
+  `az_id` string,
+  `bytes` bigint,
+  `dstaddr` string,
+  `dstport` int,
+  `end` string,
+  `flow_direction` string,
+  `instance_id` string,
+  `interface_id` string,
+  `log_status` string,
+  `packets` bigint,
+  `pkt_dst_aws_service` string,
+  `pkt_dstaddr` string,
+  `pkt_src_aws_service` string,
+  `pkt_srcaddr` string,
+  `protocol` string,
+  `region` string,
+  `srcaddr` string,
+  `srcport` string,
+  `start` string,
+  `sublocation_id` string,
+  `sublocation_type` string,
+  `subnet_id` string,
+  `tcp_flags` string,
+  `traffic_path` string,
+  `type` string,
+  `version` string,
+  `vpc_id` string,
+  `dst_vpc_id` string,
+  `dst_az_id` string,
+  `dst_subnet_id` string,
+  `dst_interface_id` string,
+  `dst_instance_id` string,
+  `dst_resource_owner` string,
+  `dst_tag_Name` string,
+  `dst_tag_env` string,
+  `dst_tag_project` string,
+  `dst_sg_1_id` string,
+  `dst_sg_1_name` string
+)
+PARTITIONED BY (
+  year string,
+  month string,
+  day string
+)
+STORED AS PARQUET
+LOCATION 's3://vpcflowlogs-enriched-pq/AWSLogs/vpc-flow-logs/'
+TBLPROPERTIES (
+  'parquet.compression'='SNAPPY',
+  'classification'='parquet',
+  'partition.type'='String'
+);
+
+
