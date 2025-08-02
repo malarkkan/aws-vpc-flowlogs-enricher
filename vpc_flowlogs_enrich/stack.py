@@ -14,7 +14,9 @@ from aws_cdk import (
     custom_resources,
     Duration,
     CfnOutput,
-    aws_kms as kms
+    aws_kms as kms,
+    aws_events as aws_events,
+    aws_events_targets as aws_events_targets,
 )
 from constructs import Construct
 import datetime
@@ -189,9 +191,11 @@ class VPCFlowLogsStack(Stack):
             iam.ManagedPolicy.from_aws_managed_policy_name('service-role/AWSLambdaVPCAccessExecutionRole')
         )
 
+        # Update the lambda_role definition in your CDK stack
         lambda_role.add_to_policy(
             iam.PolicyStatement(
                 actions=[
+                    # Existing EC2 permissions
                     'ec2:CreateTags',
                     'ec2:DescribeTags',
                     'ec2:DescribeNetworkInterfaces',
@@ -199,13 +203,69 @@ class VPCFlowLogsStack(Stack):
                     'ec2:CreateNetworkInterface',
                     'ec2:DeleteNetworkInterface',
                     'ec2:DescribeNetworkInterfaces',
-                    'ec2:AttachNetworkInterface'
+                    'ec2:AttachNetworkInterface',
+                    # Add new EC2 permissions
+                    'ec2:DescribeTransitGateways',
+                    'ec2:DescribeTransitGatewayAttachments',
+                    'ec2:DescribeNatGateways',
+                    'ec2:DescribeVpcEndpoints',
+                    'ec2:DescribeAddresses',
+                    'ec2:DescribeVpcs',
+                    'ec2:DescribeSubnets',
+                    'ec2:DescribeSecurityGroups',
                 ],
                 resources=['*']
             )
         )
+
+        # Add Load Balancer permissions
+        lambda_role.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    'elasticloadbalancing:DescribeLoadBalancers',
+                    'elasticloadbalancing:DescribeTags',
+                    'elasticloadbalancing:DescribeTargetGroups',
+                    'elasticloadbalancing:DescribeTargetHealth'
+                ],
+                resources=['*']
+            )
+        )
+
+        # Add RDS permissions
+        lambda_role.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    'rds:DescribeDBInstances',
+                    'rds:ListTagsForResource',
+                    'rds:DescribeDBClusters',
+                    'rds:DescribeDBSubnetGroups'
+                ],
+                resources=['*']
+            )
+        )
+
+        # Add CloudWatch permissions (if not already present)
+        lambda_role.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    'cloudwatch:PutMetricData'
+                ],
+                resources=['*']
+            )
+        )
+
         # Add DynamoDB permissions to Lambda role
         eni_ip_metadata_table.grant_read_write_data(lambda_role)
+
+        # Add CloudWatch permissions to the Lambda role
+        lambda_role.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    'cloudwatch:PutMetricData'
+                ],
+                resources=['*']
+            )
+        )
 
         # Create Lambda function
         vpc_logs_enrichment = _lambda.Function(
@@ -240,6 +300,21 @@ class VPCFlowLogsStack(Stack):
             },
             vpc=vpc,
             vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS)
+        )
+
+        # Create EventBridge rule
+        events_rule = aws_events.Rule(
+            self, 'IpMetadataUpdateRule',
+            schedule=aws_events.Schedule.rate(Duration.minutes(10)),
+            description='Triggers IP metadata update Lambda function every 10 minutes'
+        )
+
+        # Add the Lambda function as a target for the EventBridge rule
+        events_rule.add_target(
+            aws_events_targets.LambdaFunction(
+                ip_metadata_dynamodb_upd,
+                retry_attempts=2  # Optional: number of retries if the function fails
+            )
         )
         
         # Create Firehose role
@@ -360,7 +435,7 @@ class VPCFlowLogsStack(Stack):
     #Create Glue Table with explicit keyword arguments
         glue_table = glue.CfnTable(
             scope=self,
-            id='enriched_vpcflowlogs',
+            id='enriched_vpcflowlogs_ver1',
             catalog_id=self.account,
             database_name=glue_database.ref,
             table_input=glue.CfnTable.TableInputProperty(
@@ -397,8 +472,8 @@ class VPCFlowLogsStack(Stack):
                 bucket_arn=vpc_flow_logs_bucket.bucket_arn,
                 role_arn=firehose_role.role_arn,
                 buffering_hints={
-                    'intervalInSeconds': 300,
-                    'sizeInMBs': 64
+                    'intervalInSeconds': 180,
+                    'sizeInMBs': 128
                 },
                 compression_format='UNCOMPRESSED',
                 prefix='AWSLogs/vpc-flow-logs/year=!{timestamp:YYYY}/month=!{timestamp:MM}/day=!{timestamp:DD}/hour=!{timestamp:HH}/',
@@ -433,6 +508,7 @@ class VPCFlowLogsStack(Stack):
                         )
                     ]
                 ),
+                
                 data_format_conversion_configuration=firehose.CfnDeliveryStream.DataFormatConversionConfigurationProperty(
                     enabled=True,
                     input_format_configuration=firehose.CfnDeliveryStream.InputFormatConfigurationProperty(
@@ -454,7 +530,7 @@ class VPCFlowLogsStack(Stack):
                     schema_configuration=firehose.CfnDeliveryStream.SchemaConfigurationProperty(
                         database_name='vpcflowlogs',
                         role_arn=firehose_role.role_arn,
-                        table_name='enriched_vpcflowlogs',
+                        table_name='enriched_vpcflowlogs_ver1',
                         version_id='LATEST'
                     )
                 )
@@ -609,6 +685,130 @@ class VPCFlowLogsStack(Stack):
         glue_table.add_depends_on(glue_database)
 
 
+        # Add SSM endpoints
+        vpc.add_interface_endpoint(
+            "SSMEndpoint",
+            service=ec2.InterfaceVpcEndpointAwsService.SSM
+        )
+
+        vpc.add_interface_endpoint(
+            "SSMMessagesEndpoint",
+            service=ec2.InterfaceVpcEndpointAwsService.SSM_MESSAGES
+        )
+
+        vpc.add_interface_endpoint(
+            "EC2MessagesEndpoint",
+            service=ec2.InterfaceVpcEndpointAwsService.EC2_MESSAGES
+        )
+
+        # Create security group for EC2 instance
+        ec2_security_group = ec2.SecurityGroup(
+            self, 'EC2SecurityGroup',
+            vpc=vpc,
+            description='Security group for EC2 instance',
+            allow_all_outbound=True  # Allow outbound traffic to NAT Gateway
+        )
+
+        # Create IAM role for EC2 instance with SSM access
+        ec2_role = iam.Role(
+            self, 'EC2Role',
+            assumed_by=iam.ServicePrincipal('ec2.amazonaws.com')
+        )
+
+        # Add SSM managed policy to role
+        ec2_role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name('AmazonSSMManagedInstanceCore')
+        )
+
+        # Create EC2 instance
+        instance = ec2.Instance(
+            self, 'TestEC2Instance',
+            vpc=vpc,
+            vpc_subnets=ec2.SubnetSelection(
+                subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS
+            ),
+            instance_type=ec2.InstanceType.of(
+                ec2.InstanceClass.T3, 
+                ec2.InstanceSize.MICRO
+            ),
+            machine_image=ec2.AmazonLinuxImage(
+                generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+                kernel=ec2.AmazonLinuxKernel.KERNEL5_X
+            ),
+            security_group=ec2_security_group,
+            role=ec2_role
+        )
+
+        # Add this to your VPCFlowLogsStack class
+        # First, create a role for the Glue Crawler
+        crawler_role = iam.Role(
+            self, 'GlueCrawlerRole',
+            assumed_by=iam.ServicePrincipal('glue.amazonaws.com'),
+            managed_policies=[
+                iam.ManagedPolicy.from_aws_managed_policy_name('service-role/AWSGlueServiceRole')
+            ]
+        )
+
+        # Add S3 permissions to the crawler role
+        crawler_role.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    's3:GetObject',
+                    's3:PutObject',
+                    's3:DeleteObject',
+                    's3:ListBucket'
+                ],
+                resources=[
+                    vpc_flow_logs_bucket.bucket_arn,
+                    f"{vpc_flow_logs_bucket.bucket_arn}/*"
+                ]
+            )
+        )
+
+        # Add KMS permissions if using KMS encryption
+        crawler_role.add_to_policy(
+            iam.PolicyStatement(
+                actions=[
+                    'kms:Decrypt',
+                    'kms:GenerateDataKey'
+                ],
+                resources=[kms_key.key_arn]
+            )
+        )
+
+        # Create the Glue Crawler
+        crawler = glue.CfnCrawler(
+            self, 'VPCFlowLogsCrawler',
+            name='vpc-flow-logs-crawler',
+            role=crawler_role.role_arn,
+            database_name='vpcflowlogs',  # Same as your existing Glue database
+            schedule=glue.CfnCrawler.ScheduleProperty(
+                schedule_expression='cron(0 * * * ? *)'  # Run every hour
+            ),
+            targets=glue.CfnCrawler.TargetsProperty(
+                s3_targets=[
+                    glue.CfnCrawler.S3TargetProperty(
+                        path=f"s3://{vpc_flow_logs_bucket.bucket_name}/AWSLogs/vpc-flow-logs/"
+                    )
+                ]
+            ),
+            schema_change_policy=glue.CfnCrawler.SchemaChangePolicyProperty(
+                delete_behavior='LOG',  # or 'DELETE_FROM_DATABASE' or 'DEPRECATE_IN_DATABASE'
+                update_behavior='UPDATE_IN_DATABASE'
+            ),
+            configuration=json.dumps({
+                "Version": 1.0,
+                "CrawlerOutput": {
+                    "Partitions": { "AddOrUpdateBehavior": "InheritFromTable" },
+                    "Tables": { "AddOrUpdateBehavior": "MergeNewColumns" }
+                },
+                "Grouping": { "TableGroupingPolicy": "CombineCompatibleSchemas" }
+            }),
+            lake_formation_configuration=glue.CfnCrawler.LakeFormationConfigurationProperty(
+                use_lake_formation_credentials=False
+            )
+        )
+
         # Stack Outputs
         CfnOutput(
             self, 'VpcId',
@@ -658,8 +858,29 @@ class VPCFlowLogsStack(Stack):
             description='Lambda function name for VPC Flow Logs enrichment'
         )
 
+        # Add outputs for monitoring
         CfnOutput(
-            self, 'KmsKeyArn',
-            value=kms_key.key_arn,
-            description='KMS Key ARN for encryption'
+            self, 'MetadataUpdateLambdaName',
+            value=ip_metadata_dynamodb_upd.function_name,
+            description='Lambda function name for IP metadata updates'
+        )
+
+        CfnOutput(
+            self, 'EventBridgeRuleName',
+            value=events_rule.rule_name,
+            description='EventBridge rule name for IP metadata updates'
+        )
+
+        # Output for EC2 instance ID
+        CfnOutput(
+            self, 'EC2InstanceId',
+            value=instance.instance_id,
+            description='ID of the EC2 instance'
+        )
+
+        # Output for AWS Glue crawler
+        CfnOutput(
+            self, 'GlueCrawlerName',
+            value=crawler.name,
+            description='Name of the Glue Crawler for VPC Flow Logs'
         )
