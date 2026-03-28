@@ -1,14 +1,14 @@
 # VPC Flow Logs Enrichment and Analysis System
 
-This project implements a scalable system for enriching and analyzing VPC Flow Logs using AWS services and Redis caching.
+This project implements a scalable system for enriching and analyzing VPC Flow Logs using AWS services and DynamoDB caching.
 
-The VPC Flow Logs Enrichment and Analysis System is designed to process and enrich VPC Flow Logs data, providing enhanced visibility into network traffic within your AWS infrastructure. It leverages AWS services such as Lambda, ElastiCache Redis, and S3 to efficiently process, enrich, and store flow log data for further analysis.
+The VPC Flow Logs Enrichment and Analysis System is designed to process and enrich VPC Flow Logs data, providing enhanced visibility into network traffic within your AWS infrastructure. It leverages AWS services such as Lambda, DynamoDB, Kinesis Firehose, and S3 to efficiently process, enrich, and store flow log data for further analysis.
 
 The system is built using the AWS Cloud Development Kit (CDK) and can be deployed to different environments (development and production) with environment-specific configurations. It includes features such as:
 
 - VPC Flow Logs collection and storage in S3
 - Lambda function for log enrichment
-- Dyanamo DB caching for improved performance
+- DynamoDB caching for improved performance
 - Configurable retention policies
 - CloudWatch alarms for monitoring
 
@@ -18,24 +18,33 @@ The repository is organized as follows:
 
 ```
 .
-├── vpc-flowlogs-test/
-│   ├── app.py                 # Main CDK application entry point
-│   ├── cdk.json               # CDK configuration file
-│   ├── lambda_function/       # Lambda function code
-│   │   ├── lambda_function.py
-│   │   └── requirements.txt
-│   ├── requirements.txt       # Project dependencies
-│   ├── tests/                 # Unit tests
-│   └── vpc_flowlogs_enrich/   # CDK stack definition
-│       ├── __init__.py
-│       └── stack.py
-└── vpcflowlogs-enrich/        # Duplicate project structure (to be consolidated)
+├── app.py                          # Main CDK application entry point
+├── cdk.json                        # CDK configuration file
+├── lambda_function/                # Lambda function code for enrichment
+│   ├── lambda_function.py          # Main enrichment function
+│   ├── lambda_function_parq.py     # Parquet optimized version
+│   ├── lambda__fn_0526.py          # Version with security groups
+│   ├── requirements.txt            # Lambda dependencies
+│   └── verifyier.py               # Firehose verification function
+├── ip_metadata_table_upd/          # IP metadata update Lambda
+│   └── lambda_function.py          # Metadata collection function
+├── functions/                      # Alternative enricher implementation
+│   └── aws-vpc-flowlogs-enricher.py
+├── glue/                          # Glue table schema
+│   └── table-schema.json
+├── vpc_flowlogs_enrich/           # CDK stack definition
+│   ├── __init__.py
+│   └── stack.py                   # Main infrastructure stack
+├── requirements.txt               # Project dependencies
+├── README.md                      # This file
+└── README-solution.md             # Technical solution overview
 ```
 
 Key files:
 - `app.py`: The main entry point for the CDK application
 - `vpc_flowlogs_enrich/stack.py`: Defines the AWS resources for the VPC Flow Logs stack
 - `lambda_function/lambda_function.py`: Contains the Lambda function code for enriching VPC Flow Logs
+- `ip_metadata_table_upd/lambda_function.py`: Updates DynamoDB with IP metadata from AWS resources
 
 ## Usage Instructions
 
@@ -51,7 +60,7 @@ Key files:
 1. Clone the repository:
    ```
    git clone <repository-url>
-   cd vpc-flowlogs-test
+   cd aws-vpc-flowlogs-enricher
    ```
 
 2. Create and activate a virtual environment:
@@ -82,17 +91,17 @@ Key files:
    cdk deploy VPCFlowLogs-prod  # For production environment
    ```
 
-3. Note the outputs from the deployment, which will include the Redis endpoint and Lambda function ARN.
+3. Note the outputs from the deployment, which will include the DynamoDB table name and Lambda function ARN.
 
 ### Configuration
 
 The system can be configured by modifying the `EnvironmentConfig` class in `app.py`. Key configuration options include:
 
-- Redis instance type and node count
+- DynamoDB table configuration and TTL settings
 - VPC Flow Log source VPCs
 - Lambda function memory and timeout
 - Firehose buffer size and interval
-- Cache expiry time
+- Metadata update frequency
 
 ### Testing
 
@@ -106,33 +115,41 @@ pytest tests/
 
 1. Lambda function errors:
    - Check CloudWatch Logs for the Lambda function
-   - Verify that the Redis endpoint is correctly configured in the Lambda environment variables
+   - Verify that the DynamoDB table is correctly configured in the Lambda environment variables
    - Ensure the Lambda function has the necessary permissions to access VPC resources and S3
 
 2. VPC Flow Logs not appearing:
    - Verify that VPC Flow Logs are enabled for the specified VPCs
    - Check the S3 bucket permissions
 
-3. Redis connection issues:
-   - Verify that the security group allows inbound traffic from the Lambda function
-   - Check the Redis cluster status in the ElastiCache console
+3. DynamoDB connection issues:
+   - Verify that the Lambda function has proper IAM permissions for DynamoDB access
+   - Check the DynamoDB table status in the AWS console
+   - Ensure the table name environment variable is correctly set
 
 ## Data Flow
 
-1. VPC Flow Logs are generated and stored in the configured S3 bucket.
-2. The Lambda function is triggered by new log files in S3.
+### IP Metadata Collection
+The system includes an automated IP metadata collection process:
+
+1. **EventBridge Schedule**: Triggers the IP metadata update Lambda every 10 minutes
+2. **Resource Discovery**: The Lambda scans AWS resources (EC2, RDS, NAT Gateways, Load Balancers, etc.)
+3. **Metadata Extraction**: Collects IP addresses, tags, and resource information
+4. **DynamoDB Storage**: Stores the metadata with TTL for automatic cleanup
+
+### Flow Log Enrichment
+1. VPC Flow Logs are generated and sent to Kinesis Firehose
+2. Firehose triggers the enrichment Lambda function with batched records
 3. The Lambda function processes each log entry:
-   - It extracts relevant information from the log entry.
-   - It checks the Redis cache for existing metadata about the network interfaces.
-   - If not in cache, it queries the AWS EC2 API for additional metadata and caches the result.
-   - The log entry is enriched with the additional metadata.
-4. The enriched log entry is stored back in S3 in a processed/ prefix.
+   - It extracts relevant information from the log entry
+   - It queries the DynamoDB table for existing metadata about the IP addresses
+   - The log entry is enriched with the additional metadata (tags, resource info)
+4. The enriched log entry is converted to Parquet format and stored in S3
 
 ```
-[VPC] --> [Flow Logs] --> [S3 Bucket] --> [Lambda Function] <--> [DynamoDB table]
-                                               |
-                                               v
-                                      [Enriched Logs in S3]
+[EventBridge] --> [IP Metadata Lambda] --> [DynamoDB Table]
+                                                    ↑
+[VPC Flow Logs] --> [Firehose] --> [Enrichment Lambda] --> [S3 (Parquet)]
 ```
 
 ## Deployment
@@ -142,7 +159,7 @@ The system is deployed using AWS CDK. The `cdk deploy` command synthesizes a Clo
 Key components deployed:
 - VPC with public and private subnets
 - S3 bucket for storing VPC Flow Logs
-- ElastiCache Redis cluster
+- DynamoDB table for IP metadata caching
 - Lambda function for log enrichment
 - IAM roles and security groups
 - CloudWatch alarms

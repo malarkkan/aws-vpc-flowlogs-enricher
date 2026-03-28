@@ -1,0 +1,1819 @@
+{
+  "version": "39.0.0",
+  "artifacts": {
+    "VpcFlowLogsStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "VpcFlowLogsStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "VpcFlowLogsStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "VpcFlowLogsStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8773b735a7f3debbcc8fac3bea84fb7b6042cc94c755f908a8b66f8b69d0201e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "VpcFlowLogsStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VpcFlowLogsStack.assets"
+      ],
+      "metadata": {
+        "/VpcFlowLogsStack/CustomVPC": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "cidr": "*",
+              "enableDnsHostnames": true,
+              "enableDnsSupport": true,
+              "maxAzs": "*",
+              "natGateways": "*",
+              "subnetConfiguration": [
+                {
+                  "name": "*",
+                  "subnetType": "Public",
+                  "cidrMask": "*"
+                },
+                {
+                  "name": "*",
+                  "subnetType": "Private",
+                  "cidrMask": "*"
+                },
+                {
+                  "name": "*",
+                  "subnetType": "Isolated",
+                  "cidrMask": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPC616E3387"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet1": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": true,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": true,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addNatGateway": [
+                "*"
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet1Subnet758D3909"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet1RouteTableD7678595"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet1RouteTableAssociationCB53C136"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet1DefaultRoute3F6B4A61"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet1EIP573B5F01"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet1NATGateway92AA6F6B"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet2": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": true,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": true,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet2Subnet9CA8FBEB"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet2RouteTable253D0D06"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet2RouteTableAssociation7DDF1FE5"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPublicSubnet2DefaultRoute00A279CB"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet1": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet1SubnetBC3416DA"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet1RouteTable997AB149"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet1RouteTableAssociation1A3C4EE7"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet1DefaultRouteF0DFC019"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet2": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {}
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet2SubnetA2CC0D16"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet2RouteTableBA12A594"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet2RouteTableAssociation1E962379"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCPrivateSubnet2DefaultRoute8266392F"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet1": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCIsolatedSubnet1Subnet9658DD90"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCIsolatedSubnet1RouteTable340905CB"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCIsolatedSubnet1RouteTableAssociationF25187ED"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet2": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "availabilityZone": "*",
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "mapPublicIpOnLaunch": false,
+              "ipv6CidrBlock": "*",
+              "assignIpv6AddressOnCreation": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCIsolatedSubnet2Subnet78DF72B5"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCIsolatedSubnet2RouteTable9716169C"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IsolatedSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCIsolatedSubnet2RouteTableAssociation93A0ABE4"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCIGWCB65EB6B"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCVPCGW9371D645"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/RestrictDefaultSecurityGroupCustomResource": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCRestrictDefaultSecurityGroupCustomResourceBB168E42"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/S3Endpoint": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "service": {
+                "name": "*"
+              }
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/S3Endpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCS3Endpoint4FA5C8D5"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/DynamoDBEndpoint": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "service": {
+                "name": "*"
+              }
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/DynamoDBEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCDynamoDBEndpoint5751383B"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/FirehoseDataStreamEndpoint": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "service": {
+                "privateDnsDefault": true,
+                "name": "*",
+                "port": "*"
+              },
+              "subnets": {
+                "subnets": [
+                  "*",
+                  "*"
+                ]
+              }
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/FirehoseDataStreamEndpoint/SecurityGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addIngressRule": [
+                {
+                  "canInlineRule": true,
+                  "connections": "*",
+                  "uniqueId": "*"
+                },
+                {},
+                "*",
+                false
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/FirehoseDataStreamEndpoint/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCFirehoseDataStreamEndpointSecurityGroup69AA8607"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/FirehoseDataStreamEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCFirehoseDataStreamEndpoint4007D1C3"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMEndpoint": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "service": {
+                "privateDnsDefault": true,
+                "name": "*",
+                "port": "*"
+              }
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMEndpoint/SecurityGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addIngressRule": [
+                {
+                  "canInlineRule": true,
+                  "connections": "*",
+                  "uniqueId": "*"
+                },
+                {},
+                "*",
+                false
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMEndpoint/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCSSMEndpointSecurityGroup03B1119D"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCSSMEndpointD94644D3"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMMessagesEndpoint": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "service": {
+                "privateDnsDefault": true,
+                "name": "*",
+                "port": "*"
+              }
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMMessagesEndpoint/SecurityGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addIngressRule": [
+                {
+                  "canInlineRule": true,
+                  "connections": "*",
+                  "uniqueId": "*"
+                },
+                {},
+                "*",
+                false
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMMessagesEndpoint/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCSSMMessagesEndpointSecurityGroup1B9D09D6"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/SSMMessagesEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCSSMMessagesEndpoint4130ABF4"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/EC2MessagesEndpoint": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "service": {
+                "privateDnsDefault": true,
+                "name": "*",
+                "port": "*"
+              }
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/EC2MessagesEndpoint/SecurityGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addIngressRule": [
+                {
+                  "canInlineRule": true,
+                  "connections": "*",
+                  "uniqueId": "*"
+                },
+                {},
+                "*",
+                false
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/EC2MessagesEndpoint/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCEC2MessagesEndpointSecurityGroup9DFBBF92"
+          }
+        ],
+        "/VpcFlowLogsStack/CustomVPC/EC2MessagesEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVPCEC2MessagesEndpointFAF9E50D"
+          }
+        ],
+        "/VpcFlowLogsStack/Custom::VpcRestrictDefaultSGCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/VpcFlowLogsStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/VpcFlowLogsStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsKey": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "description": "*",
+              "enableKeyRotation": true,
+              "policy": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcFlowLogsKey9750AF40"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsBucket": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "blockPublicAccess": "*",
+              "encryption": "KMS",
+              "encryptionKey": "*",
+              "enforceSSL": true,
+              "lifecycleRules": [
+                {
+                  "transitions": "*"
+                }
+              ],
+              "removalPolicy": "retain",
+              "versioned": true
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addLifecycleRule": [
+                {
+                  "transitions": "*"
+                },
+                "*",
+                "*"
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcFlowLogsBucket3B29CF33"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsBucket/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "bucket": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcFlowLogsBucketPolicy6F5CE0F0"
+          }
+        ],
+        "/VpcFlowLogsStack/EniIpMetadataTable": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "partitionKey": {
+                "name": "*",
+                "type": "S"
+              },
+              "sortKey": {
+                "name": "*",
+                "type": "S"
+              },
+              "billingMode": "PAY_PER_REQUEST",
+              "encryption": "CUSTOMER_MANAGED",
+              "encryptionKey": "*",
+              "pointInTimeRecovery": true,
+              "removalPolicy": "retain",
+              "timeToLiveAttribute": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/EniIpMetadataTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EniIpMetadataTableC18F9F6F"
+          }
+        ],
+        "/VpcFlowLogsStack/EniIpMetadataTable/ScalingRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/LambdaExecutionRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addManagedPolicy": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addManagedPolicy": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/LambdaExecutionRole/ImportLambdaExecutionRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/LambdaExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaExecutionRoleD5C26073"
+          }
+        ],
+        "/VpcFlowLogsStack/LambdaExecutionRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/LambdaExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaExecutionRoleDefaultPolicy6D69732F"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcLogsEnrichmentFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "environment": "*",
+              "memorySize": "*",
+              "role": "*",
+              "timeout": "*",
+              "vpc": "*",
+              "vpcSubnets": {
+                "subnetType": "Private"
+              },
+              "code": "*",
+              "handler": "*",
+              "runtime": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addEnvironment": [
+                "*",
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addEnvironment": [
+                "*",
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addEnvironment": [
+                "*",
+                "*"
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VpcLogsEnrichmentFunction/SecurityGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "description": "*",
+              "allowAllOutbound": "*",
+              "allowAllIpv6Outbound": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VpcLogsEnrichmentFunction/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcLogsEnrichmentFunctionSecurityGroup2E36BF28"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcLogsEnrichmentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcLogsEnrichmentFunction90A111EC"
+          }
+        ],
+        "/VpcFlowLogsStack/IpMetadataDynamoTableUpdateFunction": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "environment": "*",
+              "memorySize": "*",
+              "role": "*",
+              "timeout": "*",
+              "vpc": "*",
+              "vpcSubnets": {
+                "subnetType": "Private"
+              },
+              "code": "*",
+              "handler": "*",
+              "runtime": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addEnvironment": [
+                "*",
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addEnvironment": [
+                "*",
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addEnvironment": [
+                "*",
+                "*"
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/IpMetadataDynamoTableUpdateFunction/SecurityGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "description": "*",
+              "allowAllOutbound": "*",
+              "allowAllIpv6Outbound": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/IpMetadataDynamoTableUpdateFunction/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IpMetadataDynamoTableUpdateFunctionSecurityGroup59E1E8D8"
+          }
+        ],
+        "/VpcFlowLogsStack/IpMetadataDynamoTableUpdateFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IpMetadataDynamoTableUpdateFunction8BB4D386"
+          }
+        ],
+        "/VpcFlowLogsStack/IpMetadataUpdateRule": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "description": "*",
+              "schedule": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addEventPattern": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addTarget": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/IpMetadataUpdateRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IpMetadataUpdateRule13FAE732"
+          }
+        ],
+        "/VpcFlowLogsStack/IpMetadataUpdateRule/AllowEventRuleVpcFlowLogsStackIpMetadataDynamoTableUpdateFunctionFB8E5A45": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IpMetadataUpdateRuleAllowEventRuleVpcFlowLogsStackIpMetadataDynamoTableUpdateFunctionFB8E5A45D94A5E10"
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseRole/ImportFirehoseRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FirehoseRoleAA67C190"
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FirehoseRoleDefaultPolicyF034DFF7"
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseLogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "encryptionKey": "*",
+              "logGroupName": "*",
+              "removalPolicy": "destroy",
+              "retention": 30
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FirehoseLogGroup1B45149B"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsDatabase": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcFlowLogsDatabase"
+          }
+        ],
+        "/VpcFlowLogsStack/enriched_vpcflowlogs_ver1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "enrichedvpcflowlogsver1"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLogsStream": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcFlowLogsStream"
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsDeliveryRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "inlinePolicies": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsDeliveryRole/ImportVPCFlowLogsDeliveryRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsDeliveryRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCFlowLogsDeliveryRoleCF7856C8"
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "description": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsRole/ImportVPCFlowLogsRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCFlowLogsRoleF17A3736"
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCFlowLogsRoleDefaultPolicyF1DB9415"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcFlowLog-enriched": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcFlowLogenriched"
+          }
+        ],
+        "/VpcFlowLogsStack/EC2SecurityGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "allowAllOutbound": true,
+              "description": "*"
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/EC2SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2SecurityGroup05DEE054"
+          }
+        ],
+        "/VpcFlowLogsStack/EC2Role": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addManagedPolicy": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/EC2Role/ImportEC2Role": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/EC2Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2RoleF978FC1C"
+          }
+        ],
+        "/VpcFlowLogsStack/TestEC2Instance": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "instanceType": "*",
+              "machineImage": "*",
+              "vpc": "*",
+              "role": "*",
+              "securityGroup": "*",
+              "vpcSubnets": {
+                "subnetType": "Private"
+              }
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/TestEC2Instance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestEC2InstanceInstanceProfile528C4132"
+          }
+        ],
+        "/VpcFlowLogsStack/TestEC2Instance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestEC2Instance186244C0"
+          }
+        ],
+        "/VpcFlowLogsStack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-kernel-5.10-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/VpcFlowLogsStack/GlueCrawlerRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "managedPolicies": [
+                {
+                  "managedPolicyArn": "*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/GlueCrawlerRole/ImportGlueCrawlerRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/VpcFlowLogsStack/GlueCrawlerRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GlueCrawlerRole4AA4B387"
+          }
+        ],
+        "/VpcFlowLogsStack/GlueCrawlerRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/VpcFlowLogsStack/GlueCrawlerRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GlueCrawlerRoleDefaultPolicy44958AC9"
+          }
+        ],
+        "/VpcFlowLogsStack/VPCFlowLogsCrawler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCFlowLogsCrawler"
+          }
+        ],
+        "/VpcFlowLogsStack/VpcId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcId"
+          }
+        ],
+        "/VpcFlowLogsStack/PublicSubnets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSubnets"
+          }
+        ],
+        "/VpcFlowLogsStack/PrivateSubnets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateSubnets"
+          }
+        ],
+        "/VpcFlowLogsStack/IsolatedSubnets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IsolatedSubnets"
+          }
+        ],
+        "/VpcFlowLogsStack/DynamoDBTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBTableName"
+          }
+        ],
+        "/VpcFlowLogsStack/S3BucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "S3BucketName"
+          }
+        ],
+        "/VpcFlowLogsStack/FirehoseStreamName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FirehoseStreamName"
+          }
+        ],
+        "/VpcFlowLogsStack/LambdaFunctionName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaFunctionName"
+          }
+        ],
+        "/VpcFlowLogsStack/MetadataUpdateLambdaName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MetadataUpdateLambdaName"
+          }
+        ],
+        "/VpcFlowLogsStack/EventBridgeRuleName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EventBridgeRuleName"
+          }
+        ],
+        "/VpcFlowLogsStack/EC2InstanceId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2InstanceId"
+          }
+        ],
+        "/VpcFlowLogsStack/GlueCrawlerName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GlueCrawlerName"
+          }
+        ],
+        "/VpcFlowLogsStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/VpcFlowLogsStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/VpcFlowLogsStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/VpcFlowLogsStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "VpcFlowLogsStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
