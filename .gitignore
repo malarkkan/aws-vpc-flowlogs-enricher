@@ -5,3 +5,4 @@ __pycache__/
 MANIFEST
 .DS_Store
 .idea
+cdk.out/*
